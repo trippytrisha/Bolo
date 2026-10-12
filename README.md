@@ -1,8 +1,8 @@
-# Bolo 🛺💸
+**Live app:** https://trippytrisha.github.io/Bolo/# Bolo 🛺💸
 
 **Bolo keeps the apps honest.** See the true price before you pay, watch your ride as it happens, and get your money back when something goes wrong.
 
-**Live app:** `https://<your-github-username>.github.io/bolo/`
+**Live app:** https://trippytrisha.github.io/Bolo/
 
 | Home | Price X-ray | Ride Watch | Money Back | Complaint |
 | --- | --- | --- | --- | --- |
