@@ -1,0 +1,215 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Bolo</title>
+  <meta name="description" content="Bolo keeps the apps honest: see the true price before you pay, watch your ride, and get your money back.">
+  <meta name="theme-color" content="#FFF8EC">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="icon" href="icon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<main class="app">
+
+  <header class="top">
+    <div class="brand"><span class="dot"></span>Bolo</div>
+    <span class="tagline">keeps the apps honest</span>
+  </header>
+
+  <!-- ============ HOME ============ -->
+  <section id="view-home" class="view active">
+    <div class="hero">
+      <button id="orb" class="orb" aria-label="Tap and speak">
+        <span class="ring"></span><span class="ring r2"></span><span class="core"></span>
+      </button>
+      <div class="hero-text">
+        <h1>Namaste! What went wrong today?</h1>
+        <p id="hint" class="muted">Tap the orb and say "my driver is late", "check this bill" or "refund chahiye".</p>
+        <p id="heard" class="heard"></p>
+      </div>
+    </div>
+
+    <div id="activeBanner" class="banner hidden"></div>
+
+    <div class="stats">
+      <div class="stat s1"><span id="stStake">₹0</span><small>money at stake</small></div>
+      <div class="stat s2"><span id="stBack">₹0</span><small>recovered</small></div>
+      <div class="stat s3"><span id="stRides">0</span><small>rides watched</small></div>
+      <div class="stat s4"><span id="stChecks">0</span><small>bills checked</small></div>
+    </div>
+
+    <div class="tiles">
+      <button class="tile t-price" data-go="price">
+        <span class="t-ic">🔍</span>
+        <span class="t-title">Price X-ray</span>
+        <span class="t-sub">See the true price, fees and all, before you pay</span>
+      </button>
+      <button class="tile t-ride" data-go="ride">
+        <span class="t-ic">🛺</span>
+        <span class="t-title">Ride Watch</span>
+        <span class="t-sub">Time your pickup, log what the driver does, rebook in one tap</span>
+      </button>
+      <button class="tile t-money" data-go="money">
+        <span class="t-ic">💸</span>
+        <span class="t-title">Money Back</span>
+        <span class="t-sub">Track every unfair charge and send a ready complaint</span>
+      </button>
+    </div>
+
+    <div class="fact">
+      <b>You're not alone.</b> In a LocalCircles survey of over 94,000 app-taxi users, 90% said they had to cancel because a driver or platform would not serve them, and 59% saw fees appear only at the end of the ride.
+      <a href="https://www.business-standard.com/india-news/cabs-ride-hailing-platforms-dark-pattern-hidden-charges-cancellations-125111101929_1.html" target="_blank" rel="noopener">Source, Nov 2025</a>
+    </div>
+  </section>
+
+  <!-- ============ PRICE X-RAY ============ -->
+  <section id="view-price" class="view">
+    <div class="vhead g-price">
+      <h2>🔍 Price X-ray</h2>
+      <p>Enter what the app showed you, add each charge at checkout, and see what you really pay. Add the same cart from a second app to compare.</p>
+    </div>
+
+    <div class="card">
+      <label class="scan">
+        <input id="scanInput" type="file" accept="image/*" hidden>
+        <span class="scan-ic">📸</span>
+        <span><b>Scan a checkout screenshot</b><br><small id="scanStatus">Beta: reads the charges for you. You can also type them below.</small></span>
+      </label>
+
+      <div class="row2">
+        <label>App
+          <select id="pApp">
+            <option>Blinkit</option><option>Zepto</option><option>Swiggy Instamart</option><option>Swiggy</option>
+            <option>Zomato</option><option>BigBasket</option><option>Flipkart Minutes</option><option>Amazon Fresh</option><option>Other</option>
+          </select>
+        </label>
+        <label>Price you were shown (₹)
+          <input id="pBase" type="number" inputmode="decimal" min="0" placeholder="e.g. 349">
+        </label>
+      </div>
+
+      <p class="lbl">Charges added at checkout <small class="muted">(tap to add)</small></p>
+      <div class="chips" id="feeChips"></div>
+      <div id="feeRows" class="feerows"></div>
+
+      <p class="lbl">What happened?</p>
+      <label class="check"><input type="checkbox" id="fLate"> These charges appeared only on the final checkout screen</label>
+      <label class="check"><input type="checkbox" id="fPre"> A pass, membership, donation or tip was already ticked for me</label>
+
+      <div class="actions">
+        <button class="btn ghost" id="pReset">Clear</button>
+        <button class="btn g-price" id="pAnalyze">X-ray this bill</button>
+      </div>
+    </div>
+
+    <div id="priceResults"></div>
+  </section>
+
+  <!-- ============ RIDE WATCH ============ -->
+  <section id="view-ride" class="view">
+    <div class="vhead g-ride">
+      <h2>🛺 Ride Watch</h2>
+      <p>Start the watch the moment you book. Bolo times the pickup, keeps a timestamped record of what happens, and helps you rebook fast if the driver stalls.</p>
+    </div>
+
+    <div id="rideForm" class="card">
+      <div class="row2">
+        <label>Booked on
+          <select id="rApp"><option>Uber</option><option>Ola</option><option>Rapido</option><option>Namma Yatri</option><option>inDrive</option><option>Other</option></select>
+        </label>
+        <label>Ride type
+          <select id="rType"><option>Cab</option><option>Auto</option><option>Bike</option></select>
+        </label>
+      </div>
+      <div class="row2">
+        <label>Pickup promised in (min)
+          <input id="rEta" type="number" inputmode="numeric" min="1" value="5">
+        </label>
+        <label>Fare quoted (₹)
+          <input id="rFare" type="number" inputmode="decimal" min="0" placeholder="e.g. 180">
+        </label>
+      </div>
+      <label>Drop location
+        <input id="rDrop" type="text" placeholder="e.g. Malviya Nagar Metro">
+      </label>
+      <button class="btn g-ride wide" id="rStart">Start watching</button>
+    </div>
+
+    <div id="rideLive" class="hidden"></div>
+    <div id="rideHistory"></div>
+  </section>
+
+  <!-- ============ MONEY BACK ============ -->
+  <section id="view-money" class="view">
+    <div class="vhead g-money">
+      <h2>💸 Money Back</h2>
+      <p>Every unfair charge in one place, with a complaint you can send in a minute and a reminder to follow up.</p>
+    </div>
+
+    <div class="stats three">
+      <div class="stat s1"><span id="mStake">₹0</span><small>at stake</small></div>
+      <div class="stat s2"><span id="mBack">₹0</span><small>recovered</small></div>
+      <div class="stat s3"><span id="mOpen">0</span><small>open cases</small></div>
+    </div>
+
+    <details class="card" id="newCase">
+      <summary>➕ Log a new case</summary>
+      <div class="row2">
+        <label>App
+          <input id="cApp" type="text" list="appList" placeholder="e.g. Zepto">
+        </label>
+        <label>Amount (₹)
+          <input id="cAmt" type="number" inputmode="decimal" min="0" placeholder="e.g. 45">
+        </label>
+      </div>
+      <label>What happened
+        <select id="cType"></select>
+      </label>
+      <label>Date
+        <input id="cDate" type="date">
+      </label>
+      <label>Details
+        <textarea id="cNote" rows="3" placeholder="e.g. Handling fee of ₹15 and Zepto Pass ₹99 were added at the last screen."></textarea>
+      </label>
+      <button class="btn g-money wide" id="cAdd">Save case</button>
+    </details>
+
+    <div class="card slim">
+      <label>Your name, for complaint letters
+        <input id="myName" type="text" placeholder="e.g. Trisha">
+      </label>
+    </div>
+
+    <div id="caseList"></div>
+  </section>
+
+  <!-- complaint sheet -->
+  <div id="sheet" class="sheet hidden" role="dialog" aria-modal="true">
+    <div class="sheet-card">
+      <div class="sheet-head"><b id="sheetTitle">Complaint</b><button class="x" id="sheetClose" aria-label="Close">✕</button></div>
+      <div id="sheetBody"></div>
+    </div>
+  </div>
+
+  <datalist id="appList">
+    <option>Blinkit</option><option>Zepto</option><option>Swiggy</option><option>Swiggy Instamart</option><option>Zomato</option>
+    <option>BigBasket</option><option>Uber</option><option>Ola</option><option>Rapido</option><option>Namma Yatri</option><option>Tata 1mg</option>
+  </datalist>
+
+  <nav class="tabbar">
+    <button data-go="home" class="on"><span>🏠</span>Home</button>
+    <button data-go="price"><span>🔍</span>X-ray</button>
+    <button data-go="ride"><span>🛺</span>Ride</button>
+    <button data-go="money"><span>💸</span>Money</button>
+  </nav>
+
+  <div id="toast" class="toast"></div>
+</main>
+<script src="app.js"></script>
+</body>
+</html>
