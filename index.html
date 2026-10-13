@@ -1,0 +1,146 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Bolo</title>
+  <meta name="description" content="Bolo is a voice assistant that books your ride, orders your usuals and reorders your medicine, comparing apps to find the best option.">
+  <meta name="theme-color" content="#FFF4EE">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="icon" href="icon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="glow g1"></div><div class="glow g2"></div>
+<main class="app">
+
+  <header class="top">
+    <button class="icon-btn" id="backBtn" aria-label="Back" hidden>
+      <svg viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7"/></svg>
+    </button>
+    <button class="icon-btn" id="menuBtn" aria-label="Menu">
+      <svg viewBox="0 0 24 24"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+    </button>
+    <div class="logo"><span class="logo-dot"></span><span>Bolo</span></div>
+    <button class="icon-btn" data-go="profile" aria-label="Profile">
+      <svg viewBox="0 0 24 24"><circle cx="12" cy="8.5" r="3.5"/><path d="M5 20c1.2-3.6 4-5.2 7-5.2s5.8 1.6 7 5.2"/></svg>
+    </button>
+  </header>
+
+  <!-- 1. HOME -->
+  <section class="screen active" id="s-home">
+    <h1 class="greet" id="greet">Hey there,<br>what can I do<br>for you today?</h1>
+    <button class="orb-wrap" id="orbHome" aria-label="Tap to speak">
+      <span class="halo"></span><span class="blob"></span>
+    </button>
+    <p class="tap"><svg viewBox="0 0 24 24"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5.5 11a6.5 6.5 0 0 0 13 0M12 17.5V21"/></svg>Tap to speak</p>
+
+    <div id="setupCard" class="setup" hidden>
+      <b>Let Bolo get to know you</b>
+      <span>Add your home, college and usuals so Bolo needs fewer questions.</span>
+      <button class="pill-dark" data-go="profile">Set up</button>
+    </div>
+
+    <div class="suggest">
+      <button class="sug" data-say="Find me a ride"><span class="si si-ride">🚗</span>Find me a ride</button>
+      <button class="sug" data-say="Order my usuals from Blinkit"><span class="si si-cart">🛒</span>Order my usuals from Blinkit</button>
+      <button class="sug" data-say="I'm craving spring rolls"><span class="si si-food">🍴</span>Order spring rolls</button>
+      <button class="sug" data-say="Reorder my medicine"><span class="si si-med">💊</span>Reorder my medicine</button>
+    </div>
+
+    <form class="typebar" id="homeForm">
+      <input id="homeInput" type="text" autocomplete="off" placeholder="Or type what you need…">
+      <button type="submit" aria-label="Send"><svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>
+    </form>
+  </section>
+
+  <!-- 2 + 3. TALK (listening / asking / thinking) -->
+  <section class="screen" id="s-talk">
+    <h2 class="talk-title" id="talkTitle">Listening…</h2>
+    <p class="talk-sub" id="talkSub"></p>
+    <div class="orb-stage">
+      <div class="bars left"><i></i><i></i><i></i></div>
+      <button class="orb-wrap big" id="orbTalk" aria-label="Tap to answer">
+        <span class="halo"></span><span class="blob"></span>
+        <span class="dots"><i></i><i></i><i></i></span>
+      </button>
+      <div class="bars right"><i></i><i></i><i></i></div>
+    </div>
+    <div class="chips" id="talkChips"></div>
+    <button class="stop" id="stopBtn"><span></span>Stop</button>
+    <form class="typebar" id="talkForm">
+      <input id="talkInput" type="text" autocomplete="off" placeholder="Or type your answer…">
+      <button type="submit" aria-label="Send"><svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>
+    </form>
+  </section>
+
+  <!-- 4. RESULTS -->
+  <section class="screen" id="s-results">
+    <div class="bubble-user" id="resUser"></div>
+    <div class="bubble-bolo"><span class="mini-orb"></span><p id="resBolo"></p></div>
+    <div id="resBody"></div>
+    <div class="sticky-cta">
+      <button class="cta" id="ctaBtn">Confirm &amp; Book <svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>
+      <button class="mic-mini" id="resMic" aria-label="Answer by voice"><svg viewBox="0 0 24 24"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5.5 11a6.5 6.5 0 0 0 13 0M12 17.5V21"/></svg></button>
+    </div>
+  </section>
+
+  <!-- 5. CONFIRMATION -->
+  <section class="screen" id="s-done">
+    <div class="check"><svg viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></div>
+    <h2 class="done-title">All set!</h2>
+    <p class="done-sub" id="doneSub"></p>
+    <div id="doneBody"></div>
+    <p class="proto">Prototype: prices are estimates and no real order was placed. Use the button above to finish in the app.</p>
+  </section>
+
+  <!-- ACTIVITY -->
+  <section class="screen" id="s-activity">
+    <h2 class="page-title">Activity</h2>
+    <div id="activityList"></div>
+  </section>
+
+  <!-- PROFILE -->
+  <section class="screen" id="s-profile">
+    <h2 class="page-title">Profile</h2>
+    <p class="page-sub">Bolo uses this to ask fewer questions. It stays on this phone.</p>
+    <form id="profileForm" class="card form">
+      <label>Your name<input id="pName" type="text" placeholder="e.g. Trisha"></label>
+      <label>Home area<input id="pHome" type="text" placeholder="e.g. Malviya Nagar, Delhi"></label>
+      <label>College or office<input id="pWork" type="text" placeholder="e.g. BVCOE, Paschim Vihar"></label>
+      <label>Comfortable on a bike taxi?
+        <select id="pBike"><option value="">Ask me each time</option><option value="yes">Yes, when it's cheaper or faster</option><option value="no">No, cabs and autos only</option></select>
+      </label>
+      <label>Your usual groceries<input id="pUsuals" type="text" placeholder="e.g. milk, bread, eggs, bhindi"></label>
+      <label>Regular medicines<input id="pMeds" type="text" placeholder="e.g. Vitamin D3 60K"></label>
+      <button class="cta" type="submit">Save</button>
+    </form>
+  </section>
+
+  <nav class="tabbar">
+    <button data-go="home" class="on"><svg viewBox="0 0 24 24"><path d="M4 11l8-7 8 7v9h-5v-6H9v6H4z"/></svg>Home</button>
+    <button data-go="activity"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="8"/><path d="M12 7.5V12l3 2"/></svg>Activity</button>
+    <button data-go="profile"><svg viewBox="0 0 24 24"><circle cx="12" cy="8.5" r="3.5"/><path d="M5 20c1.2-3.6 4-5.2 7-5.2s5.8 1.6 7 5.2"/></svg>Profile</button>
+  </nav>
+
+  <div class="sheet" id="menuSheet" hidden>
+    <div class="sheet-card">
+      <h3>About Bolo</h3>
+      <p>Say what you need and Bolo compares the apps for you: rides on Uber, Rapido and Ola; groceries on Blinkit, Zepto and Instamart; food on Swiggy and Zomato; medicines on Tata 1mg, PharmEasy and Apollo 24|7.</p>
+      <p>This is a prototype. Prices and times are estimates, and no real booking or payment is made. Your profile and history stay in this browser.</p>
+      <p>Voice works best in Chrome. Try “Book me a cab to college by 12:30 pm” or “Mujhe jaldi auto chahiye”.</p>
+      <div class="row">
+        <button class="pill-light" id="resetBtn">Reset everything</button>
+        <button class="pill-dark" id="closeMenu">Close</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="toast" id="toast"></div>
+</main>
+<script src="app.js"></script>
+</body>
+</html>

@@ -1,0 +1,10 @@
+{
+  "name": "Bolo",
+  "short_name": "Bolo",
+  "description": "Your voice assistant for rides, groceries, food and medicines.",
+  "start_url": "./",
+  "display": "standalone",
+  "background_color": "#FFF4EE",
+  "theme_color": "#FFF4EE",
+  "icons": [{ "src": "icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any maskable" }]
+}

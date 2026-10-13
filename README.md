@@ -1,58 +1,56 @@
-**Live app:** https://trippytrisha.github.io/Bolo/# Bolo 🛺💸
+# Bolo
 
-**Bolo keeps the apps honest.** See the true price before you pay, watch your ride as it happens, and get your money back when something goes wrong.
+**Stop using apps. Start giving instructions.**
+
+Bolo ("say it" in Hindi) is a voice assistant that gets everyday things done. Say "book me a cab to college by 12:30 pm" and Bolo asks what it needs to know, compares Uber, Rapido and Ola, and books the best option. It also orders your usual groceries, finds the food you're craving and reorders your medicines.
 
 **Live app:** https://trippytrisha.github.io/Bolo/
 
-| Home | Price X-ray | Ride Watch | Money Back | Complaint |
-| --- | --- | --- | --- | --- |
-| ![Home](screenshots/home.png) | ![Price X-ray](screenshots/price-xray.png) | ![Ride Watch](screenshots/ride-watch.png) | ![Money Back](screenshots/money-back.png) | ![Complaint](screenshots/complaint.png) |
+![Bolo screens: home, listening, thinking, results, confirmation](screenshots/overview.png)
 
-## Why Bolo exists
+## What it does
 
-Delivery and ride apps compete on the price they show first, and the friction shows up later. In a LocalCircles survey of over 94,000 app-taxi users ([Business Standard, Nov 2025](https://www.business-standard.com/india-news/cabs-ride-hailing-platforms-dark-pattern-hidden-charges-cancellations-125111101929_1.html)), 90% said they had to cancel because a driver or platform would not serve them, 86% saw a short wait turn into a long one, and 59% saw fees appear only at the end of the ride. In a LocalCircles survey of 32,000 food delivery users ([Outlook Business, Nov 2024](https://www.outlookbusiness.com/news/hidden-fees-affect-68-of-food-delivery-app-users-says-survey)), 68% reported hidden charges. The Central Consumer Protection Authority fined Zepto Rs 7 lakh in December 2025 for adding charges at the last step and pre-selecting a paid pass ([MediaNama](https://www.medianama.com/2025/12/223-zepto-fined-7-lakh-dark-patterns-ahead-ipo/)).
+**A voice agent that talks back.** Tap the orb and speak. Bolo replies out loud and asks follow-up questions only when it needs to: where to, how urgent, whether you're comfortable on a bike taxi. It understands Hinglish such as "mujhe jaldi auto chahiye". You can also tap a suggestion or type.
 
-Platforms own everything up to the click. Bolo is on the user's side after it.
+**Rides.** Bolo compares cab, auto and bike options across Uber, Rapido and Ola. If it's urgent, it puts the fastest pickup first; otherwise it picks the cheapest you're comfortable with. Give it an arrival time and it tells you when to leave. Say "the cheapest one" or "Ola" to switch, and "yes" to book.
 
-## Features
+**Your usuals.** "Order my usuals from Blinkit" builds your regular basket, shows it for a quick check, compares the full price including fees on Blinkit, Zepto and Instamart, and suggests a change if you had the same vegetable last week. Say "add paneer" or "remove eggs" to edit by voice.
 
-**🔍 Price X-ray.** Enter the price an app showed you and each charge added at checkout (or scan a checkout screenshot, beta). Bolo shows the true landed price, a colored breakdown of every fee, and flags practices named in the CCPA's Guidelines for Prevention and Regulation of Dark Patterns, 2023, such as drip pricing and basket sneaking. Add the same cart from another app and Bolo ranks them by what you would really pay.
+**Cravings.** "I'm craving spring rolls" finds options across Swiggy and Zomato with delivery included, marking the cheapest and fastest.
 
-**🛺 Ride Watch.** Start it the moment you book. Bolo times the pickup against the promised wait, lets you log what the driver does in one tap (asked your destination, refused UPI, stopped moving, asked you to cancel, cancelled), and keeps a timestamped record. When the driver stalls or runs late it offers one-tap rebooking on the other ride apps. At the end it checks the final fare against the quote and any cancellation fee.
+**Medicines.** "Reorder my medicine" remembers what you take and compares Tata 1mg, PharmEasy and Apollo 24|7.
 
-**💸 Money Back.** Every unfair charge becomes a case with an amount, status and evidence. Bolo drafts a refund request to the app's support and an escalation for the National Consumer Helpline, with the right legal reference, and reminds you to follow up after seven days. Totals show how much is at stake and how much you have recovered.
+**It gets to know you.** Bolo remembers your home, college or office, bike preference, usual groceries and regular medicines, so it asks fewer questions each time.
 
-**🎙️ Voice.** Tap the orb and say "check this bill", "my driver is late" or "refund chahiye" to jump to the right tool (Chrome recommended).
+| Your usuals |
+| --- |
+| ![Usuals basket](screenshots/6-usuals.png) |
+
+## Prototype status
+
+This is a working prototype of the experience. Prices and times are estimates, and no real booking or payment is made; the confirmation screen links to the real app to finish. The next step is connecting the official AI ordering servers that Swiggy, Zomato and Zepto have opened to developers, and applying for ride-booking access from Uber and Ola.
 
 ## Privacy
 
-Everything stays on your phone in the browser's local storage. Bolo has no server, no account and no tracking. The screenshot reader loads an open-source text recognition library (Tesseract.js) and reads the image inside your browser.
+Your profile and history stay in your browser's local storage. Bolo has no server and no account. Voice recognition uses your browser's built-in speech service.
 
 ## Run it
 
-No build step. Open `index.html`, or serve the folder:
+No build step. Open `index.html` in Chrome, or serve the folder:
 
 ```bash
 python3 -m http.server 8000
 ```
 
-Then open http://localhost:8000. To publish, push to GitHub and turn on Pages (Settings → Pages → Deploy from branch → `main` / root).
-
-## Roadmap
-
-1. Better screenshot reading for the major apps' checkout layouts.
-2. Live cross-app ride price comparison before booking.
-3. Hindi interface and Hindi complaint drafts.
-4. Refund tracking from order confirmation emails, with the user's permission.
-5. Direct ordering through the official AI ordering servers opened by Swiggy, Zomato and Zepto.
+Then open http://localhost:8000. The microphone needs `localhost` or HTTPS.
 
 ## Tech
 
-Plain HTML, CSS and JavaScript; Web Speech API for voice; Tesseract.js for on-device screenshot reading; service worker for offline use; hosted on GitHub Pages.
+Plain HTML, CSS and JavaScript; Web Speech API for speech recognition and text-to-speech; a slot-filling conversation engine; a service worker so it installs to your phone's home screen; hosted on GitHub Pages.
 
 ## Disclaimer
 
-Bolo helps you organize evidence and draft complaints. It is not legal advice, and it is not affiliated with any of the apps it names.
+Bolo is an independent student project and is not affiliated with any of the apps it names.
 
 ## License
 
